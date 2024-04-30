@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="tools">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../../../SoftwareAG/UniversalMessaging/tools" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/../../../../SoftwareAG/UniversalMessaging/tools" recursive="false" />
+  </library>
+</component>
