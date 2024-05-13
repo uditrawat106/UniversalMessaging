@@ -37,7 +37,6 @@ public class MessageConsumer {
 
 
             // Keep the application running to continue receiving messages
-            // In a real-world scenario, you may implement logic to handle shutdown gracefully
             while (true) {
                 Thread.sleep(1000); // Sleep for some time before checking for new messages
             }
