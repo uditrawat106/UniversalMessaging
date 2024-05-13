@@ -1,7 +1,4 @@
-import com.pcbsys.nirvana.base.events.nEvent;
 import com.pcbsys.nirvana.client.*;
-
-import java.io.UnsupportedEncodingException;
 
 public class UMDataCollector {
 
@@ -41,7 +38,11 @@ public class UMDataCollector {
 
     //send a message to the channel
     public void sendMessage(String message) throws nChannelNotFoundException, nSessionNotConnectedException, nSessionPausedException, nSecurityException, nIllegalArgumentException, nMaxBufferSizeExceededException {
-
+        nEventProperties props = new nEventProperties();
+        props.put("bondname", "bond1");
+        props.put("price", 100.00);
+        nConsumeEvent evt = new nConsumeEvent( "atag", props, "Messagefunction()".getBytes());
+        myChannel.publish(evt);
     }
 
     // Clean up resources
@@ -52,9 +53,29 @@ public class UMDataCollector {
         }
     }
 
+   /* public static void main(String[] args) {
+        try {
+            UMDataCollector collector = new UMDataCollector("nsp://localhost:9000", "MyTopic");
+
+            // Send multiple sample messages
+            for (int i = 0; i < 5; i++) {
+                collector.sendMessage("Message " + (i + 1)); // Custom message content
+                System.out.println("Message " + (i + 1) + " published successfully.");
+            }
+
+            System.out.println("Press enter to exit...");
+            System.in.read();
+            collector.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
     public static void main(String[] args) {
         try {
             UMDataCollector collector = new UMDataCollector("nsp://localhost:9000", "MyTopic");
+            // Send a sample message
+            collector.sendMessage("Hello, Universal Messaging!");
+            System.out.println("Message published successfully.");
             System.out.println("Press enter to exit...");
             System.in.read();
             collector.close();
