@@ -1,5 +1,7 @@
 import com.pcbsys.nirvana.client.*;
 
+import java.util.Scanner;
+
 public class UMDataCollector {
 
     private nSession session;
@@ -25,7 +27,7 @@ public class UMDataCollector {
         nca.setName(channelName);
         myChannel = session.findChannel(nca);
 
-        nEventListener myListener = new nEventListener() {
+/*        nEventListener myListener = new nEventListener() {
             @Override
             public void go(nConsumeEvent event) {
                 System.out.println("Message received: " + new String(event.getEventData()));
@@ -33,7 +35,7 @@ public class UMDataCollector {
         };
 
         myChannel.addSubscriber(myListener);
-        System.out.println("Subscribed to channel: " + channelName);
+        System.out.println("Subscribed to channel: " + channelName);*/
     }
 
     //send a message to the channel
@@ -41,7 +43,7 @@ public class UMDataCollector {
         nEventProperties props = new nEventProperties();
         props.put("bondname", "bond1");
         props.put("price", 100.00);
-        nConsumeEvent evt = new nConsumeEvent( "atag", props, "Messagefunction()".getBytes());
+        nConsumeEvent evt = new nConsumeEvent( "atag", props, message.getBytes());
         myChannel.publish(evt);
     }
 
@@ -53,32 +55,25 @@ public class UMDataCollector {
         }
     }
 
-   /* public static void main(String[] args) {
-        try {
-            UMDataCollector collector = new UMDataCollector("nsp://localhost:9000", "MyTopic");
-
-            // Send multiple sample messages
-            for (int i = 0; i < 5; i++) {
-                collector.sendMessage("Message " + (i + 1)); // Custom message content
-                System.out.println("Message " + (i + 1) + " published successfully.");
-            }
-
-            System.out.println("Press enter to exit...");
-            System.in.read();
-            collector.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
     public static void main(String[] args) {
         try {
             UMDataCollector collector = new UMDataCollector("nsp://localhost:9000", "MyTopic");
-            // Send a sample message
-            collector.sendMessage("Hello, Universal Messaging!");
-            System.out.println("Message published successfully.");
-            System.out.println("Press enter to exit...");
-            System.in.read();
+
+            Scanner scanner = new Scanner(System.in);
+            String userInput;
+            do {
+                System.out.print("Enter message to publish (type 'exit' to quit): ");
+                userInput = scanner.nextLine();
+
+                if (!userInput.equalsIgnoreCase("exit")) {
+                    collector.sendMessage(userInput);
+                    System.out.println("Message published successfully.");
+                }
+            } while (!userInput.equalsIgnoreCase("exit"));
+
             collector.close();
+            scanner.close();
+            System.out.println("Closed the collector.");
         } catch (Exception e) {
             e.printStackTrace();
         }
