@@ -14,11 +14,20 @@ public class UMAdminConnector {
         this.realm = new nRealmNode(this.session.getAttributes());
     }
 
-    public void fetchMetrics() throws Exception {
+    public void fetchChannelMetrics() throws Exception {
+        // Retrieve and print some metrics
+        //nChannelAttributes[] channels = realm.getChannels();
+        int num = realm.getNoOfChannels();
+        System.out.println("Number of channels: " + num);
+        String name = realm.getName();
+        System.out.println("Name of channels: " + name);
+        int id = realm.getNoOfQueues();
+        System.out.println("Id: " + id);
+    }
+
+    public void fetchQueueMetrics(String queueName) throws Exception {
         // Retrieve and print some metrics
         int num = realm.getNoOfChannels();
-        String realmProvider = "nsp://localhost:9000";
-        String queueName = "PurchaseOrder";
         String channelType = new String();
         try{
             nChannelAttributes cattrib = new nChannelAttributes();
@@ -52,6 +61,7 @@ public class UMAdminConnector {
 
             System.out.println("ClientID: " + queueName);
             System.out.println("QueueLength: " + nqd.getNoOfEvents());
+            System.out.println(nqd.getTotalMemorySize());
 
 
         }catch (Exception e){
@@ -70,7 +80,9 @@ public class UMAdminConnector {
     public static void main(String[] args) {
         try {
             UMAdminConnector adminConnector = new UMAdminConnector("nsp://localhost:9000");
-            adminConnector.fetchMetrics();
+            String queueName = "PurchaseOrder";
+            adminConnector.fetchChannelMetrics();
+            adminConnector.fetchQueueMetrics(queueName);
             adminConnector.close();
         } catch (Exception e) {
             e.printStackTrace();
