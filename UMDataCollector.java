@@ -1,4 +1,5 @@
 import com.pcbsys.nirvana.client.*;
+import com.pcbsys.nirvana.nAdminAPI.*;
 
 import java.util.Scanner;
 
@@ -6,6 +7,7 @@ public class UMDataCollector {
 
     private nSession session;
     private nChannel myChannel;
+    private nRealmNode realmNode;
 
     // Constructor
     public UMDataCollector(String rname, String channelName) throws Exception {
@@ -26,7 +28,8 @@ public class UMDataCollector {
         nChannelAttributes nca = new nChannelAttributes();
         nca.setName(channelName);
         myChannel = session.findChannel(nca);
-
+       /* nca.setName(String.valueOf(myQueue));
+        myQueue = session.findQueue(nca);*/
 /*        nEventListener myListener = new nEventListener() {
             @Override
             public void go(nConsumeEvent event) {
@@ -37,6 +40,27 @@ public class UMDataCollector {
         myChannel.addSubscriber(myListener);
         System.out.println("Subscribed to channel: " + channelName);*/
     }
+
+    // Method to create a queue for a given topic
+    /*public void createQueueForTopic(String channelName, String queueName) {
+        try {
+            // Find the topic channel
+            nChannelAttributes topicChannelAttributes = new nChannelAttributes();
+            topicChannelAttributes.setName(channelName);
+            nChannel topicChannel = session.findChannel(topicChannelAttributes);
+
+            // Create queue attributes
+
+            // Create the queue
+            nQueue queue = adminRealm.createQueue(queueAttributes);
+            System.out.println("Queue created successfully: " + queue.getName());
+        } catch (nChannelAlreadyExistsException e) {
+            System.err.println("Queue already exists: " + e.getMessage());
+        } catch (nSecurityException | nSessionNotConnectedException | nChannelNotFoundException | nUnexpectedResponseException e) {
+            System.err.println("Error while creating queue: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }*/
 
     //send a message to the channel
     public void sendMessage(String message) throws nChannelNotFoundException, nSessionNotConnectedException, nSessionPausedException, nSecurityException, nIllegalArgumentException, nMaxBufferSizeExceededException {
